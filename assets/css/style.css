@@ -1,0 +1,36 @@
+:root{
+    --main-background: #09010d;
+    --main-accent: #702fa7;
+    --second-accent: #8b4ca7;
+    --text-color: #f3e9f8;
+    --dark-purple: #76328e;
+}
+
+.dark-purple {
+    background-color: var(--main-accent);
+    color: var(--text-color);
+}
+
+.black{
+    background-color: var(--main-background);
+}
+
+.light-purple{
+    background-color: var(--second-accent);
+    color: var(--text-color);
+}
+
+.list-item {
+    background-color: var(--second-accent);
+    border-color: var(--main-accent);
+    color: var(--text-color)
+}
+
+.custom-btn {
+    background-color: var(--second-accent);
+    color: var(--text-color);
+}
+
+h1 {
+    border-radius: 5px;
+}
