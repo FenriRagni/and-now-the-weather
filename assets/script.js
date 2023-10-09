@@ -27,16 +27,26 @@ $(document).ready(function() {
         today.text(data.name+ " " + date.format("M/D"));
         console.log(today.children());
         today.siblings().children().eq(0).html("Temperature: "+ Math.round(data.main.temp)+"&deg;F");
-        today.siblings().children().eq(1).text("Wind: " + data.wind.speed+ " mph");
+        today.siblings().children().eq(1).text("Wind: " + Math.round(data.wind.speed) + " mph");
         today.siblings().children().eq(2).text("Humidity: " + data.main.humidity+ "%");
     }
 
-    
+    function setForecast(data, count){
+        var newDate = date.add(count+1,"day");
+        var day = $("#day-"+ (count+1));
+        console.log("day: ", day);
+        var forecast = 7*(count+1) + count;
+        day.text(newDate.format("M/D"));
+        day.siblings().children().eq(0).html("Temperature: "+ Math.round(data.list[forecast].main.temp)+"&deg;F");
+        day.siblings().children().eq(1).text("Wind: " + Math.round(data.list[forecast].wind.speed) + " mph");
+        day.siblings().children().eq(2).text("Humidity: " + data.list[forecast].main.humidity+ "%");
+    }
 
     subBtn.on("click", function(event) {
         event.preventDefault();
         console.log("button clicked");
         location = srchInput.val();
+        location = location.toLowerCase();
         srchInput.val("");
         $.ajax({
             url: geoQuery + "atlanta&limit=5&appid=" + key
@@ -63,7 +73,9 @@ $(document).ready(function() {
             }).then(function(data){
                 console.log("forecast data:", data);
                 console.log("forcast data.list[2].main.temp:", Math.round(data.list[2].main.temp));
-
+                for(var x=0; x < 5; x++){
+                    setForecast(data, x);
+                }
             })
         });
     });
