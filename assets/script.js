@@ -71,8 +71,9 @@ $(document).ready(function() {
     var history = JSON.parse(localStorage.getItem("searches"));
     if(history !== null){
         for(var x = 0; x < history.length; x++){
+                searchList.push(history[x]);
                 var newLocation = $("<button>" + history[x] + "</button>");
-                newLocation.addClass("list-group-item list-item text-center btn");
+                newLocation.addClass("list-group-item list-item text-center my-1 btn");
                 list.append(newLocation);
         }
     }
@@ -82,7 +83,7 @@ $(document).ready(function() {
         if(srchInput.val()!== ""){
             location = srchInput.val();
             var newLocation = $("<button>" + location + "</button>");
-            newLocation.addClass("list-group-item list-item text-center btn");
+            newLocation.addClass("list-group-item list-item text-center my-1 btn");
             searchList.push(location);
             list.append(newLocation)
             localStorage.setItem("searches", JSON.stringify(searchList));

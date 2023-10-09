@@ -44,6 +44,6 @@ h1 {
     height: 330px;
     position: fixed;
     transform: scaleX(-1);
-    bottom: 1%;
+    top: 64%;
     left: 1%;
 }
