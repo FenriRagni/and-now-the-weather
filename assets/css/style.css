@@ -26,8 +26,13 @@
     color: var(--text-color)
 }
 
+.list-item:hover{
+    background-color: var(--main-accent);
+    color: var(--text-color);
+}
+
 .custom-btn {
-    background-color: var(--second-accent);
+    background-color: var(--main-accent);
     color: var(--text-color);
 }
 

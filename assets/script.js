@@ -7,15 +7,11 @@ $(document).ready(function() {
     var today = $("#today");
     var date = dayjs();
     var list = $("#city-list");
+    var searchList = [];
     //function to set coordinates in correct format
     function setCoord(str){
         str = str.toString();
-        if(str[0]==="-"){
-            str = str.substring(0,str.indexOf(".")+3);
-        }
-        else{
-            str = str.substring(0,str.indexOf(".")+3);
-        }
+        str = str.substring(0,str.indexOf(".")+3); //finds the decimal point and creates a string up to 2 places after it
         return str;
     }
     
@@ -27,7 +23,6 @@ $(document).ready(function() {
     function setWeather(data){
         // location = location.substring(0,1).toUpperCase() + location.substring(1);
         today.text(data.name+ " " + date.format("M/D"));
-        console.log(today.children());
         today.siblings().children().eq(0).attr("src",setIcon(data.weather[0].icon));
         today.siblings().children().eq(1).html("Temperature: "+ Math.round(data.main.temp)+"&deg;F");
         today.siblings().children().eq(2).text("Wind: " + Math.round(data.wind.speed) + " mph");
@@ -37,7 +32,6 @@ $(document).ready(function() {
     function setForecast(data, count){
         var newDate = date.add(count+1,"day");
         var day = $("#day-"+ (count+1));
-        console.log("day: ", day);
         var forecast = 7*(count+1) + count;
         day.text(newDate.format("M/D"));
         day.siblings().children().eq(0).attr("src",setIcon(data.list[forecast].weather[0].icon));
@@ -46,44 +40,49 @@ $(document).ready(function() {
         day.siblings().children().eq(3).text("Humidity: " + data.list[forecast].main.humidity+ "%");
     }
 
-    subBtn.on("click", function(event) {
+    function callCity(event){
         event.preventDefault();
-        console.log("button clicked");
-        location = srchInput.val();
-        location = location.toLowerCase();
-        srchInput.val("");
         $.ajax({
             url: geoQuery + location+"&limit=5&appid=" + key
         }).then(function(data){
-            console.log("data:", data);
-            console.log("data[0]:", data[0]);
             long = data[0].lon;
             lati = data[0].lat;
-            console.log("longitude:", long);
-            console.log("latitude:", lati);
             long = setCoord(long);
             lati = setCoord(lati);
-            console.log("long set: ", long);
-            console.log("lat set: ", lati);
             $.ajax({
                 url: "https://api.openweathermap.org/data/2.5/weather?lat=" + lati
                 + "&lon=" + long + "&appid=" + key + "&units=imperial"
             }).then(function(data){
-                console.log("data:", data);
-                console.log("current weather data.main.temp:", Math.round(data.main.temp));
                 setWeather(data);
             });
             $.ajax({
                 url: "https://api.openweathermap.org/data/2.5/forecast?lat=" + lati
                 + "&lon=" + long + "&appid=" + key + "&units=imperial"
             }).then(function(data){
-                console.log("forecast data:", data);
-                console.log("forcast data.list[2].main.temp:", Math.round(data.list[2].main.temp));
                 for(var x=0; x < 5; x++){
                     setForecast(data, x);
                 }
             })
         });
+    }
+
+    subBtn.on("click", function(event){
+        if(srchInput.val()!== ""){
+            location = srchInput.val();
+            var newLocation = $("<button>" + location + "</button>");
+            newLocation.addClass("list-group-item list-item text-center btn");
+            searchList.push(newLocation);
+            list.append(newLocation)
+            localStorage.setItem("searches", JSON.stringify(searchList));
+            location = location.toLowerCase();
+            srchInput.val("");
+            callCity(event);
+        }
     });
 
+    list.on("click", "button", function(event){
+        location = event.target.textContent;
+        location = location.toLowerCase();
+        callCity(event);
+    })
 });
