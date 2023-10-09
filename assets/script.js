@@ -8,6 +8,7 @@ $(document).ready(function() {
     var date = dayjs();
     var list = $("#city-list");
     var searchList = [];
+
     //function to set coordinates in correct format
     function setCoord(str){
         str = str.toString();
@@ -21,7 +22,6 @@ $(document).ready(function() {
     }
     //sets Today's Weather
     function setWeather(data){
-        // location = location.substring(0,1).toUpperCase() + location.substring(1);
         today.text(data.name+ " " + date.format("M/D"));
         today.siblings().children().eq(0).attr("src",setIcon(data.weather[0].icon));
         today.siblings().children().eq(1).html("Temperature: "+ Math.round(data.main.temp)+"&deg;F");
@@ -29,6 +29,7 @@ $(document).ready(function() {
         today.siblings().children().eq(3).text("Humidity: " + data.main.humidity+ "%");
     }
 
+    //sets 5-day Forecast
     function setForecast(data, count){
         var newDate = date.add(count+1,"day");
         var day = $("#day-"+ (count+1));
@@ -66,12 +67,23 @@ $(document).ready(function() {
         });
     }
 
+
+    var history = JSON.parse(localStorage.getItem("searches"));
+    if(history !== null){
+        for(var x = 0; x < history.length; x++){
+                var newLocation = $("<button>" + history[x] + "</button>");
+                newLocation.addClass("list-group-item list-item text-center btn");
+                list.append(newLocation);
+        }
+    }
+
+    
     subBtn.on("click", function(event){
         if(srchInput.val()!== ""){
             location = srchInput.val();
             var newLocation = $("<button>" + location + "</button>");
             newLocation.addClass("list-group-item list-item text-center btn");
-            searchList.push(newLocation);
+            searchList.push(location);
             list.append(newLocation)
             localStorage.setItem("searches", JSON.stringify(searchList));
             location = location.toLowerCase();
