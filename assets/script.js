@@ -6,14 +6,15 @@ $(document).ready(function() {
     var srchInput = $("#search");
     var today = $("#today");
     var date = dayjs();
+    var list = $("#city-list");
     //function to set coordinates in correct format
     function setCoord(str){
         str = str.toString();
         if(str[0]==="-"){
-            str = str.substring(0,6);
+            str = str.substring(0,str.indexOf(".")+3);
         }
         else{
-            str = str.substring(0,5);
+            str = str.substring(0,str.indexOf(".")+3);
         }
         return str;
     }
@@ -24,6 +25,7 @@ $(document).ready(function() {
     }
     //sets Today's Weather
     function setWeather(data){
+        // location = location.substring(0,1).toUpperCase() + location.substring(1);
         today.text(data.name+ " " + date.format("M/D"));
         console.log(today.children());
         today.siblings().children().eq(0).attr("src",setIcon(data.weather[0].icon));
@@ -51,7 +53,7 @@ $(document).ready(function() {
         location = location.toLowerCase();
         srchInput.val("");
         $.ajax({
-            url: geoQuery + "atlanta&limit=5&appid=" + key
+            url: geoQuery + location+"&limit=5&appid=" + key
         }).then(function(data){
             console.log("data:", data);
             console.log("data[0]:", data[0]);
@@ -61,6 +63,8 @@ $(document).ready(function() {
             console.log("latitude:", lati);
             long = setCoord(long);
             lati = setCoord(lati);
+            console.log("long set: ", long);
+            console.log("lat set: ", lati);
             $.ajax({
                 url: "https://api.openweathermap.org/data/2.5/weather?lat=" + lati
                 + "&lon=" + long + "&appid=" + key + "&units=imperial"
