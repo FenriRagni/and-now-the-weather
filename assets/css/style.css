@@ -43,6 +43,7 @@ h1 {
 #cecil {
     height: 330px;
     position: fixed;
-    bottom: 0px;
-    right: 1%;
+    transform: scaleX(-1);
+    bottom: 1%;
+    left: 1%;
 }
