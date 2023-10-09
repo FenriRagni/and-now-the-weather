@@ -26,9 +26,10 @@ $(document).ready(function() {
     function setWeather(data){
         today.text(data.name+ " " + date.format("M/D"));
         console.log(today.children());
-        today.siblings().children().eq(0).html("Temperature: "+ Math.round(data.main.temp)+"&deg;F");
-        today.siblings().children().eq(1).text("Wind: " + Math.round(data.wind.speed) + " mph");
-        today.siblings().children().eq(2).text("Humidity: " + data.main.humidity+ "%");
+        today.siblings().children().eq(0).attr("src",setIcon(data.weather[0].icon));
+        today.siblings().children().eq(1).html("Temperature: "+ Math.round(data.main.temp)+"&deg;F");
+        today.siblings().children().eq(2).text("Wind: " + Math.round(data.wind.speed) + " mph");
+        today.siblings().children().eq(3).text("Humidity: " + data.main.humidity+ "%");
     }
 
     function setForecast(data, count){
@@ -37,9 +38,10 @@ $(document).ready(function() {
         console.log("day: ", day);
         var forecast = 7*(count+1) + count;
         day.text(newDate.format("M/D"));
-        day.siblings().children().eq(0).html("Temperature: "+ Math.round(data.list[forecast].main.temp)+"&deg;F");
-        day.siblings().children().eq(1).text("Wind: " + Math.round(data.list[forecast].wind.speed) + " mph");
-        day.siblings().children().eq(2).text("Humidity: " + data.list[forecast].main.humidity+ "%");
+        day.siblings().children().eq(0).attr("src",setIcon(data.list[forecast].weather[0].icon));
+        day.siblings().children().eq(1).html("Temperature: "+ Math.round(data.list[forecast].main.temp)+"&deg;F");
+        day.siblings().children().eq(2).text("Wind: " + Math.round(data.list[forecast].wind.speed) + " mph");
+        day.siblings().children().eq(3).text("Humidity: " + data.list[forecast].main.humidity+ "%");
     }
 
     subBtn.on("click", function(event) {
