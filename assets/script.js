@@ -12,7 +12,7 @@ $(document).ready(function() {
     //function to set coordinates in correct format
     function setCoord(str){
         str = str.toString();
-        str = str.substring(0,str.indexOf(".")+3); //finds the decimal point and creates a string up to 2 places after it
+        str = str.substring(0,str.indexOf(".")+3); //finds the decimal point and creates a string 2 places after it
         return str;
     }
     
@@ -41,6 +41,7 @@ $(document).ready(function() {
         day.siblings().children().eq(3).text("Humidity: " + data.list[forecast].main.humidity+ "%");
     }
 
+    //makes the city api call
     function callCity(event){
         event.preventDefault();
         $.ajax({
@@ -67,7 +68,7 @@ $(document).ready(function() {
         });
     }
 
-
+    //displays search history found in local storage
     var history = JSON.parse(localStorage.getItem("searches"));
     if(history !== null){
         for(var x = 0; x < history.length; x++){
@@ -78,7 +79,7 @@ $(document).ready(function() {
         }
     }
 
-    
+    //event listener on submit button
     subBtn.on("click", function(event){
         if(srchInput.val()!== ""){
             location = srchInput.val();
@@ -92,7 +93,8 @@ $(document).ready(function() {
             callCity(event);
         }
     });
-
+    
+    //event listener on each search history item
     list.on("click", "button", function(event){
         location = event.target.textContent;
         location = location.toLowerCase();

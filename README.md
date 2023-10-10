@@ -17,4 +17,29 @@ A webapp that lets you search for a city to get their current weather and the 5 
 
 ## Usage
 
-entering a city name 
+Entering a city name returns the weather and 5 day forecast for that city. It then keeps a history of your searches for easy access to previous searches.
+![weather-demo](./assets/images/weather-demo.gif)
+
+## Code Snippet
+
+```js
+function setCoord(str){
+        str = str.toString();
+        str = str.substring(0,str.indexOf(".")+3);
+        return str;
+    }
+```
+This bit of code takes the latitude or longitude finds the location of the decimal point and then creates a string 2 indexes past it. This sets the coordinates to the format that the api requires to pull the correct weather data.
+
+## Learning Points 
+Throughout this project, I learned and became more familiar with making api calls and ways to dynamically change the call. I figured out how to write a function that could easily be used by multiple types of elements. A skill I gained was traversing trough information given from API calls
+
+## Credits
+Image of Cecil Palmer by [littleulvar](https://www.deviantart.com/littleulvar) <br>
+Thanks to [Ezekiel Jamolin](https://github.com/Ezekiel186) for helping me understand traversing the api call object!
+
+## Author
+Alonso Ampuero <br>
+[Twitter](https://www.twitter.com/fenri.ragni) <br>
+[Github](https://www.github.com/fenri.ragni) <br>
+[Portfolio](https://fenriragni.github.io/pro-portfolio/)
