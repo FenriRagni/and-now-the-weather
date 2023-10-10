@@ -1,7 +1,7 @@
 $(document).ready(function() {
     var key = "9b6428448f91b6aed665e25daf655e2f"
     var location, long, lati;
-    var geoQuery = "http://api.openweathermap.org/geo/1.0/direct?q="
+    var geoQuery = "https://api.openweathermap.org/geo/1.0/direct?q="
     var subBtn = $("#submit");
     var srchInput = $("#search");
     var today = $("#today");
